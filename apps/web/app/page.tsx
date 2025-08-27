@@ -3,8 +3,24 @@
 import { useMutation, useQuery } from "convex/react";
 import { api } from "@workspace/backend/_generated/api";
 import { Button } from "@workspace/ui/components/button";
+import { Authenticated, Unauthenticated } from "convex/react";
+import { SignInButton, UserButton } from "@clerk/nextjs";
 
 export default function Page() {
+  return (
+    <>
+      <Authenticated>
+        <UserButton />
+        <Content />
+      </Authenticated>
+      <Unauthenticated>
+        <SignInButton />
+      </Unauthenticated>
+    </>
+  );
+}
+
+function Content() {
   const users = useQuery(api.users.getMany);
   const addUser = useMutation(api.users.add);
   return (
